@@ -16,4 +16,4 @@
 
 
 ## Example of Webpage
-![alt text](https://raw.githubusercontent.com/xyzjust/DisasterResponsePipeline/main/example.png)
+![alt text](https://raw.githubusercontent.com/xyzjust/DisasterResponsePipeline/master/example.png)
