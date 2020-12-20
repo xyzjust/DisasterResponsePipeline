@@ -14,6 +14,7 @@ import pickle
 import nltk
 import re
 
+import sqlite3
 
 app = Flask(__name__)
 
@@ -50,8 +51,10 @@ def tokenize(text):
 
 
 # load data
-engine = create_engine('sqlite:///../data/DisasterResponse.db')
-df = pd.read_sql_table('DisasterResponse', engine)
+
+conn = sqlite3.connect('../data/DisasterResponse.db')
+    
+df = pd.read_sql('Select * From DisasterResponse;', conn, index_col='index')
 
 # load model
 model = pickle.load(open("../models/classifier.pkl", 'rb'))
@@ -65,6 +68,7 @@ def index():
     # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
+
     
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
