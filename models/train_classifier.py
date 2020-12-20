@@ -22,8 +22,12 @@ from xgboost import XGBClassifier
     
 import sqlite3
 
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, recall_score, precision_score
 import pickle
+
+
+import warnings
+from IPython.display import display
 
 def load_data(database_filepath):
     
@@ -115,8 +119,20 @@ def build_model():
                 ('tfidf', TfidfTransformer()),
                 ('multi_clf', MultiOutputClassifier(XGBClassifier(eval_metric='logloss', scale_pos_weight = 20)))
                 ])
+    
+    
+    param_grid = {
+    'multi_clf__estimator': [XGBClassifier(eval_metric='logloss', scale_pos_weight = 10),
+                             XGBClassifier(eval_metric='logloss', scale_pos_weight = 50),
+                             XGBClassifier(eval_metric='logloss', scale_pos_weight = 100)
+                            ],
+    'multi_clf__estimator__n_estimators': [10, 50, 100, 200, 500],
+    }
 
-    return pipeline_XG
+
+    pipeline_XG_search = GridSearchCV(pipeline_XG, param_grid, n_jobs=-1)
+
+    return pipeline_XG_search
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
@@ -126,23 +142,32 @@ def evaluate_model(model, X_test, Y_test, category_names):
     for k,v in enumerate([d for d in category_names]):
         accuracy.append((v, 
                         f1_score(Y_test[:,k], Y_pred[:,k], zero_division=1), 
+                        recall_score(Y_test[:,k], Y_pred[:,k], zero_division=1), 
+                        precision_score(Y_test[:,k], Y_pred[:,k], zero_division=1),
                         accuracy_score(Y_test[:,k], Y_pred[:,k]) ))
 
 
-    return pd.DataFrame(accuracy, columns=['category','f1_score','accuracy'])
+    df_evaluate = pd.DataFrame(accuracy, columns=['category',
+                                           'f1_score',
+                                           'recall_score',
+                                           'precision_score',
+                                           'accuracy'])
     
-    
+    display(df_evaluate)
+    return df_evaluate
+
 def save_model(model, model_filepath):
     pickle.dump(model, open(model_filepath, 'wb'))
     pass
 
 
 def main():
+    warnings.filterwarnings("ignore")
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
         X, Y, category_names = load_data(database_filepath)
-        X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
+        X_train, X_test, Y_train, Y_test = train_test_split(X[:10], Y[:10], test_size=0.2)
         
         print('Building model...')
         model = build_model()
