@@ -29,5 +29,5 @@
 
 
 
-## A Note on imbalanced data:
+## A Note on imbalanced data
 the training data is imbalanced in a way such that for certain categories, there are more negative results than positives ones in the order of 10^3, the training model here has tried to resolve this in some ways by introducing a weight when training the model. However, the method was rudimentary and can be improved upon.
