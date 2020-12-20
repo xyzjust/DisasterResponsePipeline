@@ -17,3 +17,17 @@
 
 ## Example of Webpage
 ![alt text](https://raw.githubusercontent.com/xyzjust/DisasterResponsePipeline/master/example.png)
+
+
+
+## Dependencies/Packages used
+- xgboost  :  **1.3.0.post0**
+- scikit-learn  :  **0.23.2**
+- pandas  :  **1.1.3**
+- numpy  :  **1.19.2**
+- nltk  :  **3.5**
+
+
+
+### A Note on imbalanced data:
+the training data is imbalanced in a way such that for certain categories, there are more negative results than positives ones in the order of 10^3, the training model here has tried to resolve this in some ways by introducing a weight when training the model. However, the method was rudimentary and can be improved upon.
