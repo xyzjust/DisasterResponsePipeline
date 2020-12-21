@@ -1,6 +1,6 @@
 # Disaster Response Pipeline Project
 
-## Motivation
+### Motivation
 
 When a disater occurs, it is vital to be able to deliver aid to the people in need as fast as possible. Modern technology has allowed us to send messages with ease, whilst this is an advantage in many ways, an organisation in charge of deliverying help is often bombarded with messages as a result. This project aims to use machine learning to analyse the messages recieved and label them with the appropriate labels so the corresponding teams can act fast in deliverying resources.
 
