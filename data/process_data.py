@@ -11,6 +11,19 @@ import sqlite3
 
 
 def load_data(messages_filepath, categories_filepath):
+    """
+    Combines messages files and categories file to produce one pandas dataframe.
+    
+    INPUT: 
+    - messages_filepath : a string indicates the location of the messages file (csv)
+    - categories_filepath : a string indicates the location of the categories file (csv)
+    
+    OUTPUT:
+    - a combined pandas data frame
+    
+    """
+    
+    
     
     df_messages = pd.read_csv(messages_filepath).drop_duplicates()
     df_categories = pd.read_csv(categories_filepath).drop_duplicates()
@@ -40,6 +53,15 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    """
+    Takes in a dataframe and cleans the data (e.g. remove duplicates and wrongly labelled rows)
+    
+    INPUT:
+    - df : pandas dataframe
+    
+    OUTPUT:
+    - cleaned up pandas dataframe
+    """
     
     df_return = df[['id']].copy(deep=True)
     all_columns = [d for d in df.columns if d != 'id']
@@ -59,6 +81,14 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
+    """
+    Saves the dataframe to a designated SQL database (sqlite), table names: DisasterResponse
+    
+    INPUT:
+    - df : dataframe to be saved
+    
+    OUTPUT: None (no output)
+    """
     
     conn = sqlite3.connect(database_filename)
 
@@ -71,6 +101,12 @@ def save_data(df, database_filename):
 
 
 def main():
+    """
+    Run function to load, clean and save the data to a SQL database
+    
+    """
+    
+    
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]

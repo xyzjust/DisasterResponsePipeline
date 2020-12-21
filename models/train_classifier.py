@@ -30,6 +30,17 @@ import warnings
 from IPython.display import display
 
 def load_data(database_filepath):
+    """
+    Loads data from database file path provided
+    Returns a matrix of features, a matrix for target values, and a list of column names
+    
+    INPUT:
+    - database_filepath : file path to SQL database
+    
+    OUTPUT:
+    - matrix of feature , matrix of target values, list of feature (column) names 
+    
+    """
     
     conn = sqlite3.connect(database_filepath)
     
@@ -81,6 +92,18 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    """
+    Takes in a string of text and tokenizes the word
+    
+    INPUT: 
+    - string
+    
+    OUTPUT:
+    - list of tokenized words 
+    
+    """
+    
+    
     stop_words = set(nltk.corpus.stopwords.words('english'))
     
     text = text.lower().replace("'"," ").replace('"'," ")
@@ -113,6 +136,16 @@ def tokenize(text):
 
 
 def build_model():
+    """
+    Buils a ML pipeline using XG boost 
+    
+    INPUT: (None)
+    
+    OUTPUT: 
+    - ML Pipeline
+    
+    """
+    
 
     pipeline_XG = Pipeline([
                 ('vect', CountVectorizer(tokenizer=tokenize)),
@@ -122,11 +155,12 @@ def build_model():
     
     
     param_grid = {
-    'multi_clf__estimator': [XGBClassifier(eval_metric='logloss', scale_pos_weight = 10),
+    'multi_clf__estimator': [
+#                              XGBClassifier(eval_metric='logloss', scale_pos_weight = 10),
                              XGBClassifier(eval_metric='logloss', scale_pos_weight = 50),
                              XGBClassifier(eval_metric='logloss', scale_pos_weight = 100)
                             ],
-    'multi_clf__estimator__n_estimators': [10, 50, 100, 200, 500],
+    'multi_clf__estimator__n_estimators': [100, 500, 1000],
     }
 
 
@@ -136,6 +170,21 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    """
+    Evaluates the model on all the categories.
+    
+    INPUT: 
+    - model : a model that can call .predict on
+    - X_test : matrix of testing values
+    - Y_test : matrix of target values
+    - category_names : a list of names corresponding to each Y column
+    
+    OUTPUT:
+    - a pandas dataframe shows the score from f1, recall, precision and accuracy
+    
+    """
+    
+    
     accuracy = []
     Y_pred = model.predict(X_test)
 
@@ -157,11 +206,27 @@ def evaluate_model(model, X_test, Y_test, category_names):
     return df_evaluate
 
 def save_model(model, model_filepath):
+    """
+    Saves the model to a designate filepath using the pickle package
+    
+    INPUT:
+    - model : a trained model
+    - model_filepath : a string that indicates 
+                       the name and the path
+                       where model will be saved to
+                       e.g. './model_folder/trained_model.pkl'
+    
+    """
     pickle.dump(model, open(model_filepath, 'wb'))
     pass
 
 
 def main():
+    """
+    Run function to train and evalurate the classifier 
+    """
+    
+    
     warnings.filterwarnings("ignore")
     if len(sys.argv) == 3:
         database_filepath, model_filepath = sys.argv[1:]
