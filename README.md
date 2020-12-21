@@ -1,6 +1,14 @@
 # Disaster Response Pipeline Project
 
-### Instructions:
+## Instructions:
+
+A project that builds web app and a ML pipeline to train a multilabel classifier to classify text messages into appropriate categories (e.g. food, shelter etc). The web app is built using Flask and Boostrap. The outcome is a webapp where a message can be inputted and based on the message, the approriate categories will be highlighted.
+
+### Example of Webpage
+![alt text](https://raw.githubusercontent.com/xyzjust/DisasterResponsePipeline/master/example.png)
+
+
+## Setup
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database <br>
@@ -8,16 +16,10 @@
     - To run ML pipeline that trains classifier and saves <br>
         `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
 
-2. Run the following command **in the app's directory** to run your web app.
+2. Run the following command **in the app's directory** to run the web app.
     `python run.py`
 
 3. Go to http://0.0.0.0:3001/
-
-
-
-## Example of Webpage
-![alt text](https://raw.githubusercontent.com/xyzjust/DisasterResponsePipeline/master/example.png)
-
 
 
 ## Dependencies/Packages used
