@@ -2,9 +2,9 @@
 
 ## Instructions:
 
-A project that builds web app and a ML pipeline to train a multilabel classifier to classify text messages into appropriate categories (e.g. food, shelter etc). The web app is built using Flask and Boostrap. The outcome is a webapp where a message can be inputted and based on the message, the approriate categories will be highlighted.
+A project that builds a web app and a ML pipeline to train a multilabel classifier to classify text messages into appropriate categories (e.g. food, shelter etc). The web app is built using Flask and Boostrap. The outcome is a webapp where a message can be inputted and based on the message, the approriate categories will be highlighted.
 
-### Example of Webpage
+#### Example of the final web app
 ![alt text](https://raw.githubusercontent.com/xyzjust/DisasterResponsePipeline/master/example.png)
 
 
